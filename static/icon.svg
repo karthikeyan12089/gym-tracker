@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#4338ca"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="url(#bgGrad)"/>
+  <g filter="url(#shadow)" fill="#ffffff">
+    <!-- Center bar -->
+    <rect x="146" y="240" width="220" height="32" rx="16"/>
+    <!-- Left outer plate -->
+    <rect x="100" y="160" width="34" height="192" rx="14"/>
+    <!-- Left inner plate -->
+    <rect x="140" y="190" width="24" height="132" rx="10"/>
+    <!-- Right outer plate -->
+    <rect x="378" y="160" width="34" height="192" rx="14"/>
+    <!-- Right inner plate -->
+    <rect x="348" y="190" width="24" height="132" rx="10"/>
+  </g>
+</svg>

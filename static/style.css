@@ -1,0 +1,30 @@
+/*
+  GymTracker — style.css  (Phase 3 Light Mode)
+  Tailwind is not used here — all styling is in index.html's <style> block.
+  This file handles global overrides only.
+*/
+
+/* ── Scrollbar ─────────────────────────────── */
+::-webkit-scrollbar        { width: 3px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: #a5b4fc; border-radius: 100px; }
+
+/* ── iOS safe area / notch support ─────────── */
+body { padding-bottom: env(safe-area-inset-bottom); }
+
+/* ── Remove iOS tap highlight ───────────────── */
+* { -webkit-tap-highlight-color: transparent; }
+
+/* ── Prevent iOS zoom on focus ──────────────── */
+input, select, textarea { font-size: 16px !important; }
+
+/* ── Date picker accent ─────────────────────── */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.4) sepia(1) saturate(5) hue-rotate(210deg);
+  cursor: pointer;
+}
+
+/* ── Spin button removal ────────────────────── */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; }
