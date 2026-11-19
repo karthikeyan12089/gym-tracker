@@ -18,6 +18,8 @@ ENV/
 # Databases (PostgreSQL is used in cloud; keep local SQLite private)
 *.sqlite
 *.sqlite3
+*.db
+gym.db
 
 # IDE & OS
 .vscode/
