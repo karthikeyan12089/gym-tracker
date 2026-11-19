@@ -19,7 +19,7 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 
-# Cloud Postgres (Render / Railway / Neon / Supabase) vs Local SQLite Dual-Mode
+# Cloud Postgres (Render / Railway / Neon / Supabase / Vercel) vs Local SQLite Dual-Mode
 raw_db_url = os.environ.get("DATABASE_URL", "").strip()
 if raw_db_url:
     # Normalize postgres:// to postgresql:// for SQLAlchemy 1.4+ compatibility
@@ -27,8 +27,12 @@ if raw_db_url:
         raw_db_url = "postgresql://" + raw_db_url[len("postgres://"):]
     app.config["SQLALCHEMY_DATABASE_URI"] = raw_db_url
 else:
-    db_path = os.path.join(BASE_DIR, "gym.db").replace("\\", "/")
-    app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
+    # If running on Vercel serverless without DATABASE_URL, write to /tmp to prevent read-only filesystem crash
+    if os.environ.get("VERCEL"):
+        app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/gym.db"
+    else:
+        db_path = os.path.join(BASE_DIR, "gym.db").replace("\\", "/")
+        app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "gymtracker-phase4-production-secret-key-9988")
@@ -36,8 +40,8 @@ app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days=90)
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
-# Enforce secure cookies on HTTPS or cloud platforms (Render / HTTPS)
-if os.environ.get("RENDER") or os.environ.get("FLASK_ENV") == "production" or os.environ.get("HTTPS") == "on":
+# Enforce secure cookies on HTTPS or cloud platforms (Render / Vercel / HTTPS)
+if os.environ.get("VERCEL") or os.environ.get("RENDER") or os.environ.get("FLASK_ENV") == "production" or os.environ.get("HTTPS") == "on":
     app.config["SESSION_COOKIE_SECURE"] = True
 
 # 4-Digit Security PIN (Default: 1208 or overridden via GYM_APP_PIN)
